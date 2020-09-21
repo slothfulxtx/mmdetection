@@ -12,10 +12,6 @@ class UnknownDataset(CustomDataset):
         '''
         load annotations from .json ann_file
         '''
-        self.cat2label = {
-            cat_id: i + 1
-            for i, cat_id in enumerate(self.CLASSES)
-        }
         self.img_infos = []
         self.img_names = []
         self.ann_infos = {}
@@ -44,9 +40,6 @@ class UnknownDataset(CustomDataset):
                 self.ann_infos[str(ann_data['image_id'])]['area'].append(
                     ann_data['area'])
 
-        self.catid2cat = {}
-        for category in self.data['categories']:
-            self.catid2cat[str(category['id'])] = category['name']
         return self.img_infos
 
     def get_ann_info(self, idx):
@@ -60,8 +53,7 @@ class UnknownDataset(CustomDataset):
         bboxes[:, 3] += bboxes[:, 1]
         ann['bboxes'] = bboxes
         ann['bboxes_ignore'] = np.zeros((0, 4), dtype=np.float32)
-        ann['labels'] = np.array(
-            [self.cat2label[self.catid2cat[str(cat_id)]] for cat_id in ann_data['category_id']], dtype=np.int64)
+        ann['labels'] = np.array(ann_data['category_id'], dtype=np.int64)
         ann['labels_ignore'] = np.zeros((0,), dtype=np.int64)
         # print(ann)
         return ann
@@ -69,4 +61,4 @@ class UnknownDataset(CustomDataset):
     def get_cat_ids(self, idx):
         img_id = self.img_infos[idx]['id']
         ann_data = self.ann_infos[str(img_id)]
-        return [self.cat2label[self.catid2cat[str(cat_id)]] for cat_id in ann_data['category_id']]
+        return ann_data['category_id']
