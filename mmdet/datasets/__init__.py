@@ -13,6 +13,7 @@ from .wider_face import WIDERFaceDataset
 from .xml_style import XMLDataset
 
 from .unknown import UnknownDataset
+from .sensing import SensingDataset
 
 __all__ = [
     'CustomDataset', 'XMLDataset', 'CocoDataset', 'DeepFashionDataset',
@@ -20,5 +21,5 @@ __all__ = [
     'LVISV1Dataset', 'GroupSampler', 'DistributedGroupSampler',
     'DistributedSampler', 'build_dataloader', 'ConcatDataset', 'RepeatDataset',
     'ClassBalancedDataset', 'WIDERFaceDataset', 'DATASETS', 'PIPELINES',
-    'build_dataset', 'replace_ImageToTensor', 'UnknownDataset'
+    'build_dataset', 'replace_ImageToTensor', 'UnknownDataset','SensingDataset'
 ]
